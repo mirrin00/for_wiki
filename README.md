@@ -19,17 +19,17 @@ make
 
 ### Исходные картинки
 
-1. ![test][Images/test.png]
-2. ![rgb][Images/rgb.png]
-3. ![github][Images/github.png]
-4. ![jetbrains][Images/jetbrains.png
+1. ![test](Images/test.png)
+2. ![rgb](Images/rgb.png)
+3. ![github](Images/github.png)
+4. ![jetbrains](Images/jetbrains.png)
 
 ### Работа программы
 
-1. Запуск ![start][for_readme/pngeditor0.png]
-2. Открытие картинки ![start][for_readme/pngeditor1.png]
-3. Рисвание треугольника ![start][for_readme/pngeditor2.png]
-4. Рисование линий ![start][for_readme/pngeditor3.png]
-5. Замена наибольшего прямоугольника(4 раза) ![start][for_readme/pngeditor4.png]
-6. Создание колллажа ![start][for_readme/pngeditor5.png]
+1. Запуск ![start](for_readme/pngeditor0.png)
+2. Открытие картинки ![start](for_readme/pngeditor1.png)
+3. Рисвание треугольника ![start](for_readme/pngeditor2.png)
+4. Рисование линий ![start](for_readme/pngeditor3.png)
+5. Замена наибольшего прямоугольника(4 раза) ![start](for_readme/pngeditor4.png)
+6. Создание колллажа ![start](for_readme/pngeditor5.png)
 Результаты находятся в папке **Image**, их названия начинаются с _res__
