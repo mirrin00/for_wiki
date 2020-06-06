@@ -12,7 +12,16 @@
 #include "sizedialog.h"
 #include "helpdialog.h"
 
-#define COLORS_COUNT 5
+#define SLIDEBAR_SIZE 15
+
+enum COLORS{
+    LINE_COLOR,
+    TRIANGLE_COLOR,
+    FILL_COLOR,
+    FIND_COLOR,
+    REPLACE_COLOR,
+    COLORS_COUNT,
+};
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -66,9 +75,9 @@ private slots:
     void resizeEvent(QResizeEvent* event) override;
 
 private:
-    void changeColor(int number);
+    void changeColor(COLORS number);
 
-    void setSceneColor(int number);
+    void setSceneColor(COLORS number);
 
     void resizeBackground();
 
@@ -77,7 +86,7 @@ private:
     Ui::MainWindow *ui;
     MyScene* scene;
     QLabel* background;
-    QColor colors[COLORS_COUNT];
+    QColor colors[COLORS::COLORS_COUNT];
 
     bool enabled;
 };

@@ -204,10 +204,7 @@ void PNG::drawTriangle(Point p1, Point p2, Point p3, RGBA rgba, unsigned int siz
     if(!size) return;
     Point* borders;
     int min,max;
-    //int paral=-1;
     if(width>height){
-        //if(p1.y==p2.y || p1.y==p3.y) paral=p1.y;
-        //if(p2.y==p3.y) paral=p2.y;
         min=p1.y;
         if(p2.y<min) min=p2.y;
         if(p3.y<min) min=p3.y;
@@ -217,8 +214,6 @@ void PNG::drawTriangle(Point p1, Point p2, Point p3, RGBA rgba, unsigned int siz
         borders=(Point*)malloc(sizeof(Point)*height);
     }
     else{
-        //if(p1.x==p2.x || p1.x==p3.x) paral=p1.x;
-        //if(p2.x==p3.x) paral=p2.x;
         min=p1.x;
         if(p2.x<min) min=p2.x;
         if(p3.x<min) min=p3.x;
@@ -239,7 +234,6 @@ void PNG::drawTriangle(Point p1, Point p2, Point p3, RGBA rgba, unsigned int siz
 
     if(width>height){
         for(int i=min;i<max;i++){
-            //if(paral!=-1 && abs(i-paral)<=(size/2)) continue;
             for(int j=borders[i].x+1;j<borders[i].y;j++){
                 png_byte* pixel=image+pixel_bytes*(i*width+j);
                 pixel[0]=fill_rgba.red;
@@ -250,7 +244,6 @@ void PNG::drawTriangle(Point p1, Point p2, Point p3, RGBA rgba, unsigned int siz
         }
     }else{
         for(int i=min;i<max;i++){
-            //if(paral!=-1 && abs(i-paral)<=(size/2)) continue;
             for(int j=borders[i].x+1;j<borders[i].y;j++){
                 png_byte* pixel=image+pixel_bytes*(j*width+i);
                 pixel[0]=fill_rgba.red;

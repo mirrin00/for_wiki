@@ -38,7 +38,7 @@ void MainWindow::on_triangle_radiobutton_toggled(bool checked)
     ui->color_triangle->setEnabled(checked);
     if(checked  ){
         ui->color_triangle_fill->setEnabled(ui->fill_checkbox->isChecked());
-        scene->setRGBA1(colors[1].red(),colors[1].green(),colors[1].blue(),colors[1].alpha());
+        scene->setRGBA1(colors[COLORS::TRIANGLE_COLOR].red(),colors[COLORS::TRIANGLE_COLOR].green(),colors[COLORS::TRIANGLE_COLOR].blue(),colors[COLORS::TRIANGLE_COLOR].alpha());
     }
     scene->resetPoints();
     if(checked) scene->setMode(3);
@@ -50,7 +50,7 @@ void MainWindow::on_line_radiobutton_toggled(bool checked)
     scene->resetPoints();
     if(checked){
         scene->setMode(2);
-        scene->setRGBA1(colors[0].red(),colors[0].green(),colors[0].blue(),colors[0].alpha());
+        scene->setRGBA1(colors[COLORS::LINE_COLOR].red(),colors[COLORS::LINE_COLOR].green(),colors[COLORS::LINE_COLOR].blue(),colors[COLORS::LINE_COLOR].alpha());
     }
 }
 
@@ -58,11 +58,11 @@ void MainWindow::on_fill_checkbox_toggled(bool checked)
 {
     ui->color_triangle_fill->setEnabled(checked);
     scene->setFill(checked);
-    if(checked) scene->setRGBA2(colors[2].red(),colors[2].green(),colors[2].blue(),colors[2].alpha());
+    if(checked) scene->setRGBA2(colors[COLORS::FILL_COLOR].red(),colors[COLORS::FILL_COLOR].green(),colors[COLORS::FILL_COLOR].blue(),colors[COLORS::FILL_COLOR].alpha());
 }
 
-void MainWindow::changeColor(int number){
-    if(number>=COLORS_COUNT) return;
+void MainWindow::changeColor(COLORS number){
+    if(number>=COLORS::COLORS_COUNT) return;
     QColorDialog::ColorDialogOptions options({QColorDialog::ShowAlphaChannel,QColorDialog::DontUseNativeDialog});
     QColorDialog qd(this);
     qd.setOptions(options);
@@ -72,24 +72,17 @@ void MainWindow::changeColor(int number){
     setSceneColor(number);
 }
 
-void MainWindow::setSceneColor(int number){
+void MainWindow::setSceneColor(COLORS number){
     switch (number) {
-    case 0:
+    case COLORS::LINE_COLOR:
         scene->setRGBA1(colors[number].red(),colors[number].green(),colors[number].blue(),colors[number].alpha());
         break;
-    case 1:
+    case COLORS::TRIANGLE_COLOR:
         scene->setRGBA1(colors[number].red(),colors[number].green(),colors[number].blue(),colors[number].alpha());
         break;
-    case 2:
+    case COLORS::FILL_COLOR:
         scene->setRGBA2(colors[number].red(),colors[number].green(),colors[number].blue(),colors[number].alpha());
         break;
-    /*case 3:
-        scene->setRGBA1(colors[number].red(),colors[number].green(),colors[number].blue(),colors[number].alpha());
-        break;
-    case 4:
-        scene->setRGBA2(colors[number].red(),colors[number].green(),colors[number].blue(),colors[number].alpha());
-        break;*/
-
     }
 }
 
@@ -133,27 +126,27 @@ void MainWindow::on_hand_radiobutton_toggled(bool checked)
 
 void MainWindow::on_color_line_clicked()
 {
-    changeColor(0);
+    changeColor(COLORS::LINE_COLOR);
 }
 
 void MainWindow::on_color_triangle_clicked()
 {
-    changeColor(1);
+    changeColor(COLORS::TRIANGLE_COLOR);
 }
 
 void MainWindow::on_color_triangle_fill_clicked()
 {
-    changeColor(2);
+    changeColor(COLORS::FILL_COLOR);
 }
 
 void MainWindow::on_color_find_clicked()
 {
-    changeColor(3);
+    changeColor(COLORS::FIND_COLOR);
 }
 
 void MainWindow::on_color_replace_clicked()
 {
-    changeColor(4);
+    changeColor(COLORS::REPLACE_COLOR);
 }
 
 
@@ -173,7 +166,7 @@ void MainWindow::on_save_button_clicked()
 
 void MainWindow::on_find_and_replace_button_clicked()
 {
-    scene->findReplace(colors[3],colors[4]);
+    scene->findReplace(colors[COLORS::FIND_COLOR],colors[COLORS::REPLACE_COLOR]);
 }
 
 void MainWindow::on_collage_button_clicked()
@@ -217,11 +210,11 @@ void MainWindow::resizeBackground(){
     new_geom.setLeft(geom.left()+ui->centralwidget->geometry().left()+1);
     new_geom.setTop(geom.top()+ui->centralwidget->geometry().top()+1);
     if(geom.height()>=MAX_HEIGHT || geom.width()>=MAX_WIDTH){
-        new_geom.setWidth(geom.width()-17);
-        new_geom.setHeight(geom.height()-17);
+        new_geom.setWidth(geom.width()-(SLIDEBAR_SIZE+BORDER_SIZE));
+        new_geom.setHeight(geom.height()-(SLIDEBAR_SIZE+BORDER_SIZE));
     }else{
-        new_geom.setHeight(geom.height()-2);
-        new_geom.setWidth(geom.width()-2);
+        new_geom.setHeight(geom.height()-BORDER_SIZE);
+        new_geom.setWidth(geom.width()-BORDER_SIZE);
     }
     background->setGeometry(new_geom);
 }

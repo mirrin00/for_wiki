@@ -18,10 +18,10 @@ PNG::PNG(){
     color_type=-1;
     bit_depth=-1;
     number_of_passes=-1;
-    info_ptr=NULL;
-    png_ptr=NULL;
+    info_ptr=nullptr;
+    png_ptr=nullptr;
     pixel_bytes=0;
-    image=NULL;
+    image=nullptr;
 }
 
 void PNG::openPNG(const std::string& file_name){
@@ -40,7 +40,7 @@ void PNG::openPNG(const std::string& file_name){
         throw PNGException(PNG_NOT_PNG);
     }
 
-    png_ptr=png_create_read_struct(PNG_LIBPNG_VER_STRING,NULL,NULL,NULL);
+    png_ptr=png_create_read_struct(PNG_LIBPNG_VER_STRING,nullptr,nullptr,nullptr);
 
     if(!png_ptr){
         fclose(file);
@@ -50,13 +50,13 @@ void PNG::openPNG(const std::string& file_name){
     info_ptr=png_create_info_struct(png_ptr);
 
     if(!info_ptr){
-        png_destroy_read_struct(&png_ptr,NULL,NULL);
+        png_destroy_read_struct(&png_ptr,nullptr,nullptr);
         fclose(file);
         throw PNGException(PNG_INFO_STRUCT_ERROR);
     }
 
     if(setjmp(png_jmpbuf(png_ptr))){
-        png_destroy_read_struct(&png_ptr,&info_ptr,NULL);
+        png_destroy_read_struct(&png_ptr,&info_ptr,nullptr);
         fclose(file);
         throw PNGException(PNG_INITIALIZATION_ERROR);
     }
@@ -69,7 +69,7 @@ void PNG::openPNG(const std::string& file_name){
                         &interlace_type,&compression_type,&filter_type);
 
     if(color_type!=PNG_COLOR_TYPE_RGBA && color_type!=PNG_COLOR_TYPE_RGB){
-        png_destroy_read_struct(&png_ptr,&info_ptr,NULL);
+        png_destroy_read_struct(&png_ptr,&info_ptr,nullptr);
         fclose(file);
         throw PNGException(PNG_COLOR_ERROR);
     }
@@ -85,7 +85,7 @@ void PNG::openPNG(const std::string& file_name){
     png_read_update_info(png_ptr,info_ptr);
 
     if(setjmp(png_jmpbuf(png_ptr))){
-        png_destroy_read_struct(&png_ptr,&info_ptr,NULL);
+        png_destroy_read_struct(&png_ptr,&info_ptr,nullptr);
         fclose(file);
         throw PNGException(PNG_READ_IMAGE_ERROR);
     }
@@ -94,19 +94,19 @@ void PNG::openPNG(const std::string& file_name){
 
     image=(png_byte*)malloc(sizeof(png_byte)*height*width*pixel_bytes);
     if(!image){
-        png_destroy_read_struct(&png_ptr,&info_ptr,NULL);
+        png_destroy_read_struct(&png_ptr,&info_ptr,nullptr);
         fclose(file);
         throw PNGException(PNG_MEMORY_ERROR);
     }
     for(int pass=0;pass<number_of_passes;pass++){
         for(int i=0;i<height;i++){
-            png_read_row(png_ptr,image+pixel_bytes*i*width,NULL);
+            png_read_row(png_ptr,image+pixel_bytes*i*width,nullptr);
         }
     }
     png_read_end(png_ptr,info_ptr);
     
-    png_destroy_read_struct(&png_ptr,NULL,NULL);
-    png_ptr=NULL;
+    png_destroy_read_struct(&png_ptr,nullptr,nullptr);
+    png_ptr=nullptr;
 
     fclose(file);
 
@@ -118,7 +118,7 @@ void PNG::writePNG(const std::string& file_name){
     if(!file){
             throw PNGException(PNG_OPEN_CREATE_FILE_ERROR);
     }
-    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     
     if(!png_ptr){
         fclose(file);
@@ -128,13 +128,13 @@ void PNG::writePNG(const std::string& file_name){
     if(!info_ptr) info_ptr=png_create_info_struct(png_ptr);
 
     if(!info_ptr){
-        png_destroy_write_struct(&png_ptr,NULL);
+        png_destroy_write_struct(&png_ptr,nullptr);
         fclose(file);
         throw PNGException(PNG_INFO_STRUCT_ERROR);
     }
 
     if(setjmp(png_jmpbuf(png_ptr))){
-        png_destroy_write_struct(&png_ptr,NULL);
+        png_destroy_write_struct(&png_ptr,nullptr);
         fclose(file);
         throw PNGException(PNG_INITIALIZATION_ERROR);
     }
@@ -142,7 +142,7 @@ void PNG::writePNG(const std::string& file_name){
     png_init_io(png_ptr,file);
 
     if(setjmp(png_jmpbuf(png_ptr))){
-        png_destroy_write_struct(&png_ptr,NULL);
+        png_destroy_write_struct(&png_ptr,nullptr);
         fclose(file);
         throw PNGException(PNG_WRITE_INFO_ERROR);
     }
@@ -155,7 +155,7 @@ void PNG::writePNG(const std::string& file_name){
     png_write_info(png_ptr, info_ptr);
 
     if(setjmp(png_jmpbuf(png_ptr))){
-        png_destroy_write_struct(&png_ptr,NULL);
+        png_destroy_write_struct(&png_ptr,nullptr);
         fclose(file);
         throw PNGException(PNG_WRITE_IMAGE_ERROR);
     }
@@ -166,31 +166,31 @@ void PNG::writePNG(const std::string& file_name){
     }
 
     if(setjmp(png_jmpbuf(png_ptr))){
-        png_destroy_write_struct(&png_ptr,NULL);
+        png_destroy_write_struct(&png_ptr,nullptr);
         fclose(file);
         throw PNGException(PNG_WRITE_END_ERROR);
     }
-    png_write_end(png_ptr, NULL);
+    png_write_end(png_ptr, nullptr);
 
     fclose(file);
 
-    png_destroy_write_struct(&png_ptr,NULL);
-    png_ptr=NULL;
+    png_destroy_write_struct(&png_ptr,nullptr);
+    png_ptr=nullptr;
     
 }
 
 
 void PNG::freePNG(){
-    png_ptr=png_create_write_struct(PNG_LIBPNG_VER_STRING,NULL,NULL,NULL);
+    png_ptr=png_create_write_struct(PNG_LIBPNG_VER_STRING,nullptr,nullptr,nullptr);
     png_destroy_info_struct(png_ptr,&info_ptr);
-    png_destroy_write_struct(&png_ptr,NULL);
-    png_ptr=NULL;
-    info_ptr=NULL;
+    png_destroy_write_struct(&png_ptr,nullptr);
+    png_ptr=nullptr;
+    info_ptr=nullptr;
     
     if(!image)
         return;
     free(image);
-    image=NULL;
+    image=nullptr;
 }
 
 PNG::~PNG(){

@@ -22,7 +22,7 @@ void MyScene::updateImage(){
     clear();
     addPixmap(QPixmap::fromImage(*new_image));
     setSceneRect(0,0,new_image->width(),new_image->height());
-    int new_width=width()+2,new_height=height()+2;
+    int new_width=width()+BORDER_SIZE,new_height=height()+BORDER_SIZE;
     if(new_width>=MAX_WIDTH) new_width=MAX_WIDTH;
     if(new_height>=MAX_HEIGHT) new_height=MAX_HEIGHT;
     QRect rect=graphicsView->geometry();
@@ -38,7 +38,7 @@ bool MyScene::openFile(std::string filename){
     } catch (PNGException& e) {
         QMessageBox msgbox;
         msgbox.setWindowTitle(tr("Information about error"));
-        msgbox.setText(getMessageFromError(e.getId()));
+        msgbox.setText(getMessageFromError(e.getError()));
         msgbox.exec();
         return false;
     }
@@ -52,7 +52,7 @@ void MyScene::saveFile(std::string filename){
     } catch (PNGException& e) {
         QMessageBox msgbox;
         msgbox.setWindowTitle(tr("Information about error"));
-        msgbox.setText(getMessageFromError(e.getId()));
+        msgbox.setText(getMessageFromError(e.getError()));
         msgbox.exec();
     }
 }
@@ -97,7 +97,7 @@ void MyScene::findReplace(QColor color_find, QColor color_replace){
     } catch (PNGException& e) {
         QMessageBox msgbox;
         msgbox.setWindowTitle(tr("Information about error"));
-        msgbox.setText(getMessageFromError(e.getId()));
+        msgbox.setText(getMessageFromError(e.getError()));
         msgbox.exec();
     }
 }
@@ -117,7 +117,7 @@ void MyScene::draw(){
     } catch (PNGException& e) {
         QMessageBox msgbox;
         msgbox.setWindowTitle(tr("Information about error"));
-        msgbox.setText(getMessageFromError(e.getId()));
+        msgbox.setText(getMessageFromError(e.getError()));
         msgbox.exec();
     }
     p_count=0;
@@ -156,7 +156,7 @@ bool MyScene::collage(QString filename, unsigned int n, unsigned int m){
     } catch (PNGException& e) {
         QMessageBox msgbox;
         msgbox.setWindowTitle(tr("Information about error"));
-        msgbox.setText(getMessageFromError(e.getId()));
+        msgbox.setText(getMessageFromError(e.getError()));
         msgbox.exec();
         return false;
     }
@@ -171,7 +171,7 @@ bool MyScene::createImage(unsigned int width, unsigned int height){
     } catch (PNGException& e) {
         QMessageBox msgbox;
         msgbox.setWindowTitle(tr("Information about error"));
-        msgbox.setText(getMessageFromError(e.getId()));
+        msgbox.setText(getMessageFromError(e.getError()));
         msgbox.exec();
         return false;
     }
@@ -180,37 +180,37 @@ bool MyScene::createImage(unsigned int width, unsigned int height){
 
 
 
-QString MyScene::getMessageFromError(int error){
+QString MyScene::getMessageFromError(PNG_ERRORS error){
     switch (error) {
-    case PNG_OPEN_CREATE_FILE_ERROR:
+    case PNG_ERRORS::PNG_OPEN_CREATE_FILE_ERROR:
         return tr("Could not open/create file");
-    case PNG_NOT_PNG:
+    case PNG_ERRORS::PNG_NOT_PNG:
         return tr("File is no PNG");
-    case PNG_READ_STRUCT_ERROR:
+    case PNG_ERRORS::PNG_READ_STRUCT_ERROR:
         return tr("Could not create struct for reading PNG");
-    case PNG_INFO_STRUCT_ERROR:
+    case PNG_ERRORS::PNG_INFO_STRUCT_ERROR:
         return tr("Could not create struct for information about PNG");
-    case PNG_INITIALIZATION_ERROR:
+    case PNG_ERRORS::PNG_INITIALIZATION_ERROR:
         return tr("Error while reading information");
-    case PNG_READ_IMAGE_ERROR:
+    case PNG_ERRORS::PNG_READ_IMAGE_ERROR:
         return tr("Error while reading image");
-    case PNG_MEMORY_ERROR:
+    case PNG_ERRORS::PNG_MEMORY_ERROR:
         return tr("Out of memory for this action");
-    case PNG_EMPTY_ERROR:
+    case PNG_ERRORS::PNG_EMPTY_ERROR:
         return tr("No open file");
-    case PNG_WRITE_STRUCT_ERROR:
+    case PNG_ERRORS::PNG_WRITE_STRUCT_ERROR:
         return tr("Could not create struct for writing PNG");
-    case PNG_WRITE_INFO_ERROR:
+    case PNG_ERRORS::PNG_WRITE_INFO_ERROR:
         return tr("Could not create struct for writing information about PNG");
-    case PNG_WRITE_IMAGE_ERROR:
+    case PNG_ERRORS::PNG_WRITE_IMAGE_ERROR:
         return tr("Error while writing image");
-    case PNG_WRITE_END_ERROR:
+    case PNG_ERRORS::PNG_WRITE_END_ERROR:
         return tr("Error while writing end of file");
-    case PNG_COLOR_ERROR:
+    case PNG_ERRORS::PNG_COLOR_ERROR:
         return tr("PNG have a unsupported color type");
-    case PNG_COORDINATES_ERROR:
+    case PNG_ERRORS::PNG_COORDINATES_ERROR:
         return tr("Incorrect coordinates");
-    case PNG_INVALID_COUNTS:
+    case PNG_ERRORS::PNG_INVALID_COUNTS:
         return tr("Inccorect size");
     }
     return tr("Unknown error");

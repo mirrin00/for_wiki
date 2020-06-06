@@ -11,6 +11,7 @@
 #define MAX_MODE 3
 #define MAX_WIDTH 800
 #define MAX_HEIGHT 600
+#define BORDER_SIZE 2
 
 class MyScene: public QGraphicsScene
 {
@@ -52,7 +53,7 @@ private slots:
 
 private:
     // Convert error id to message
-    QString getMessageFromError(int error);
+    QString getMessageFromError(PNG_ERRORS error);
 
     /* Draw line or triangle
      * It is defined by mode
@@ -65,7 +66,7 @@ private:
         2 -- line
         3 -- triangle
         p_count is a count of points
-        size -- ???!!!
+        size -- size of the line or edges of the triangle
     */
     int mode, p_count;
     unsigned int size;
