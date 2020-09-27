@@ -19,7 +19,7 @@ unsigned char run[] = {
 int main(){
 	DDRB &= ~1;
 	PORTB |= 1;
-	DDRA = DDRC = 0xFF;
+	DDRA = 0xFF;
 	int cur = 0, way = 1;
 	while(1){
 		PORTA = run[cur];
